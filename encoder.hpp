@@ -3,6 +3,13 @@
 
 #include "rotate_sensor_intetrface.hpp"
 
+/* Pin settings */
+const int pin_INT = 2;
+const int pin_Dir = 3;
+
+const int pulse_per_roll = 100;
+
+
 class encoder_measure : public rotate_sensor_interface
 {
 public:
@@ -31,7 +38,7 @@ public:
     /* arg: void                                              */
     /* return: void                                           */
     /**********************************************************/
-    virtual void measure_pulse_width(void);
+    virtual unsigned int measure_pulse_width(void);
 
     /**********************************************************/
     /* Function: calculate_rpm                                */
@@ -39,7 +46,7 @@ public:
     /* arg: void                                              */
     /* return: void                                           */
     /**********************************************************/
-    virtual void calculate_rpm(void);
+    virtual float calculate_rpm(void);
 
     /**********************************************************/
     /* Function: calculate_rps                                */
@@ -47,7 +54,7 @@ public:
     /* arg: void                                              */
     /* return: void                                           */
     /**********************************************************/
-    virtual void calculate_rps(void);
+    virtual float calculate_rps(void);
 
     /**********************************************************/
     /* Function: calculate_rotate_angle                       */
@@ -55,7 +62,7 @@ public:
     /* arg: void                                              */
     /* return: void                                           */
     /**********************************************************/
-    virtual void calculate_rotate_angle(void);
+    virtual float calculate_rotate_angle(void);
 
 private:
 

@@ -9,67 +9,24 @@
 void setup();
 void loop();
 #endif
+
+
 #include "encoder.hpp"
 
-/* Pin settings */
-const int pin_INT = 2;
-const int pin_Dir = 3;
+static encoder_measure right_encoder;
 
-volatile int count = 0;
-
-
-void ISR_pulse_count(void){
-    int stateA = digitalRead(pin_INT);
-    int stateB = digitalRead(pin_Dir);
-    
-    if(HIGH == stateA) {
-        if(LOW == stateB){
-            count++;
-        }else if(HIGH == stateB){
-            count--;
-        }else{
-            /* Error */
-            count = 0;
-        }
-    }else if(LOW == stateA){
-        if(HIGH == stateB){
-            count++;
-        }else if(LOW == stateB){
-            count--;
-        }else{
-            /* Error */
-            count = 0;
-        }
-    }else{
-        /* Error */
-        count = 0;
-    }
-}
-
-unsigned int measeure_pulse_width(void){
-    /* measeure pulse width */
-    unsigned int duration_High = pulseIn(pin_INT, HIGH);
-    unsigned int pulse_duration_minco_sec = duration_High * 2.0f;
-
-    return pulse_duration_minco_sec;
-}
-
-float calculate_rps(unsigned int pulse_width){
-    const int pulse_per_roll = 100;
-    float time_per_pulse = (float)(pulse_width) / 1000000.0f;
-    float roll_per_time = 1 / (time_per_pulse * pulse_per_roll);
-
-    return roll_per_time;
+void ISR_count(){
+    right_encoder.count_pulse_edge();
 }
 
 void setup(){
     Serial.begin(115200);
 
-    pinMode(pin_INT, INPUT_PULLUP);
-    pinMode(pin_Dir, INPUT_PULLUP);
-
-    attachInterrupt(0, ISR_pulse_count, CHANGE);
+    right_encoder.create();
+    
+    attachInterrupt(0, ISR_count, CHANGE);
     //attachInterrupt(1, interruput_pinA, CHANGE);
+
 }
 
 
@@ -77,8 +34,8 @@ void loop(){
     //Serial.print("Encoder couter: ");
     //Serial.println(count);
 
-    unsigned int pulse_width = measeure_pulse_width();
-    float rps = calculate_rps(pulse_width);
+    unsigned int pulse_width = right_encoder.measure_pulse_width();
+    float rps = right_encoder.calculate_rps();
     // Debug
     //Serial.print("Pulse width: ");
     //Serial.println(duration_High);

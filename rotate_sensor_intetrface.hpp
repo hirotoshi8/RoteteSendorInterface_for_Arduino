@@ -28,7 +28,7 @@ public:
     /* arg: void                                              */
     /* return: void                                           */
     /**********************************************************/
-    virtual void measure_pulse_width(void) = 0;
+    virtual unsigned int measure_pulse_width(void) = 0;
 
     /**********************************************************/
     /* Function: calculate_rpm                                */
@@ -36,7 +36,7 @@ public:
     /* arg: void                                              */
     /* return: void                                           */
     /**********************************************************/
-    virtual void calculate_rpm(void) = 0;
+    virtual float calculate_rpm(void) = 0;
 
     /**********************************************************/
     /* Function: calculate_rps                                */
@@ -44,7 +44,7 @@ public:
     /* arg: void                                              */
     /* return: void                                           */
     /**********************************************************/
-    virtual void calculate_rps(void) = 0;
+    virtual float calculate_rps(void) = 0;
 
     /**********************************************************/
     /* Function: calculate_rotate_angle                       */
@@ -52,7 +52,7 @@ public:
     /* arg: void                                              */
     /* return: void                                           */
     /**********************************************************/
-    virtual void calculate_rotate_angle(void) = 0;
+    virtual float calculate_rotate_angle(void) = 0;
 
     
 };
